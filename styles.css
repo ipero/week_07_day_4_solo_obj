@@ -1,0 +1,12 @@
+body{
+	font-family: Verdana, sans-serif;
+}
+.employee{
+	background-color: #ddd;
+	border: 3px solid #abcabc;
+	padding: 10px;
+	list-style: none;
+}
+.container{
+	width: 300px;
+}

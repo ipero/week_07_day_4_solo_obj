@@ -14,6 +14,7 @@ var Boo = new Person ("Boo", "11435", "54000", 3);
 var Scout = new Person("Scout", "6243", "74750", 5);
 
 var employeeList = [Atticus, Jem, Boo, Scout];
+var adjustedSalary= [];
 
 //Create variables used to write to the DOM
 var newEl, newText, position;
@@ -23,17 +24,19 @@ position = document.getElementById('content');
 //Loop the array, extracting each array and writing information to the DOM
 //Note that the information is not 'clean'
 for(var i = 0; i < employeeList.length; i++){
-	employeeList[i] = calculateSTI(employeeList[i]);
- 	newEl = document.createElement('li');
-	newText = document.createTextNode(employeeList[i]);
-	newEl.appendChild(newText);
-	position.appendChild(newEl);
+	adjustedSalary[i] = calculateSTI(employeeList[i]);
+ // 	newEl = document.createElement('li');
+	// newText = document.createTextNode(employeeList[i]);
+	// newEl.appendChild(newText);
+	// position.appendChild(newEl);
 }
 
 function calculateSTI(array){
-  var newArray = [];
+  // var newArray = [];
+  var name = array.name;
+  var newSalary;
 
-  newArray[0] = array.name;
+  // newArray[0] = array.name;
   var employeeNumber = array.id;
   
   var baseSalary = parseInt(array.salary);
@@ -45,11 +48,17 @@ function calculateSTI(array){
     bonus = 0.13;
   }
     var bonusDollarValue=Math.round(baseSalary*bonus);
-  newArray[1] = " " +bonus*100+"%";
-  newArray[2] = baseSalary+bonusDollarValue;
-  newArray[3] = bonusDollarValue;
-  console.log(newArray[0] + " " + newArray[1] + " " + newArray[2] + " " + newArray[3]);
-  return newArray;
+
+    // this.bonus=bonusDollarValue;
+    // this.totalPay= baseSalary+bonusDollarValue;
+  // newArray[1] = " " +bonus*100+"%";
+  // newArray[2] = baseSalary+bonusDollarValue;
+  newSalary=baseSalary+bonusDollarValue;
+
+  // newArray[3] = bonusDollarValue;
+  // console.log(newArray[0] + " " + newArray[1] + " " + this.totalPay + " " + this.bonus);
+  return {"name": name, "baseSalary": baseSalary, "bonus": bonusDollarValue, "adjustedSalary": newSalary};
+  //return newArray;
 }
 
 function getBaseSTI(reviewScore){
@@ -90,3 +99,23 @@ function getIncomeAdjustment(salary){
   }
   return incomeAdjustment;
 }
+
+// found function numberWithCommas on stackoverflow.com
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+//jQuery stuff
+$(document).ready(function () {
+
+  for(i=0; i<adjustedSalary.length; i++){
+    $('.container').append('<ul class="employee"></ul');
+    var $el=$('.container').children().last();
+    $el.append('<li>Name: '+adjustedSalary[i].name+'</li>');
+    $el.append('<li>Salary: $'+numberWithCommas(adjustedSalary[i].baseSalary)+'</li>');
+    $el.append('<li>Bonus: $'+numberWithCommas(adjustedSalary[i].bonus)+'</li>');
+    $el.append('<li>Adjusted Salary: $'+numberWithCommas(adjustedSalary[i].adjustedSalary)+'</li>');
+
+
+}
+});
